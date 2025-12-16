@@ -18,7 +18,7 @@
         
         body {
             font-family: 'EB Garamond', serif;
-            background-color: #f8f8f8; /* Softer background */
+            background-color: #f8f8f8;
             color: #333;
             line-height: 1.6;
         }
@@ -34,7 +34,6 @@
             padding: 0 20px;
         }
         
-        /* Modal Overlay */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -56,7 +55,6 @@
             visibility: visible;
         }
         
-        /* Theme Selection Modal */
         .theme-modal {
             background-color: #fff;
             border-radius: 10px;
@@ -298,7 +296,6 @@
             cursor: pointer;
         }
         
-        /* Introduction Modal */
         .intro-modal {
             background-color: #fff;
             border-radius: 10px;
@@ -488,9 +485,8 @@
             background-color: #ffd700;
         }
         
-        /* Header Styles */
         header {
-            background-color: #fcfcfc; /* Off-white instead of pure white */
+            background-color: #fcfcfc;
             border-bottom: 1px solid #e5e5e5;
             position: sticky;
             top: 0;
@@ -586,7 +582,6 @@
             border-bottom: 2px solid #666;
         }
         
-        /* Theme Toggle */
         .theme-toggle {
             display: flex;
             align-items: center;
@@ -618,10 +613,6 @@
             color: #444;
         }
         
-        .dark-mode .theme-icon {
-            color: #aaa;
-        }
-        
         .dark-mode .theme-icon.active {
             color: #ffd700;
         }
@@ -631,9 +622,8 @@
             font-weight: 300;
         }
         
-        /* Main Content */
         .hero {
-            background-color: #fcfcfc; /* Off-white */
+            background-color: #fcfcfc;
             padding: 60px 0;
             border-bottom: 1px solid #e5e5e5;
             margin-bottom: 40px;
@@ -666,7 +656,6 @@
             color: #aaa;
         }
         
-        /* Article Grid */
         .section-title {
             font-size: 1.8rem;
             font-weight: 600;
@@ -688,7 +677,7 @@
         }
         
         .article-card {
-            background-color: #fefefe; /* Slightly off-white */
+            background-color: #fefefe;
             border-radius: 4px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
@@ -789,7 +778,6 @@
             border-top: 1px solid #333;
         }
         
-        /* Featured Article */
         .featured-article {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -863,9 +851,8 @@
             color: #aaa;
         }
         
-        /* Footer */
         footer {
-            background-color: #f5f5f5; /* Light grey footer */
+            background-color: #f5f5f5;
             border-top: 1px solid #e5e5e5;
             padding: 50px 0 30px;
             margin-top: 50px;
@@ -957,7 +944,6 @@
             border-top: 1px solid #333;
         }
         
-        /* Mobile Responsiveness */
         @media (max-width: 992px) {
             .featured-article {
                 grid-template-columns: 1fr;
@@ -1034,7 +1020,6 @@
             }
         }
         
-        /* Utility Classes */
         .btn {
             display: inline-block;
             background-color: #444;
@@ -1098,7 +1083,6 @@
     </style>
 </head>
 <body>
-    <!-- Theme Selection Modal -->
     <div class="modal-overlay" id="themeModal">
         <div class="theme-modal">
             <h2>Choose Your Theme</h2>
@@ -1162,7 +1146,6 @@
         </div>
     </div>
     
-    <!-- Introduction Modal -->
     <div class="modal-overlay" id="introModal">
         <div class="intro-modal">
             <div class="intro-header">
@@ -1170,7 +1153,6 @@
             </div>
             
             <div class="intro-content">
-                <!-- Page 1: Welcome -->
                 <div class="intro-page welcome-page active" id="page1">
                     <div class="welcome-icon">
                         <i class="fas fa-newspaper"></i>
@@ -1179,7 +1161,6 @@
                     <p class="welcome-message">Welcome to The Daily Brief - your source for quality journalism.</p>
                 </div>
                 
-                <!-- Page 2: Team Introduction -->
                 <div class="intro-page team-page" id="page2">
                     <h3>Our Team</h3>
                     <div class="team-members">
@@ -1220,7 +1201,6 @@
         </div>
     </div>
     
-    <!-- Main Website Content -->
     <header>
         <div class="container">
             <div class="header-content">
@@ -1253,7 +1233,6 @@
         
         <h2 class="section-title">Latest News</h2>
         <div class="articles-grid">
-            <!-- Article 1: Australia's Social Media Ban -->
             <article class="article-card">
                 <div class="article-img" style="background-image: url('https://images.unsplash.com/photo-1611605698323-b1e99cfd37ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80');"></div>
                 <div class="article-content">
@@ -1270,7 +1249,6 @@
                 </div>
             </article>
             
-            <!-- Article 2: Bondi Beach Attack -->
             <article class="article-card">
                 <div class="article-img" style="background-image: url('https://www.aljazeera.com/wp-content/uploads/2025/12/afp_693ed14f2468-1765724495.jpg?resize=770%2C513&quality=80');"></div>
                 <div class="article-content">
@@ -1287,7 +1265,6 @@
                 </div>
             </article>
             
-            <!-- Article 3: US Seizure of Oil Tanker -->
             <article class="article-card">
                 <div class="article-img" style="background-image: url('https://static.srpcdigital.com/styles/1037xauto/public/2025-12/1304613_0.jpeg.webp');"></div>
                 <div class="article-content">
@@ -1330,14 +1307,12 @@
     </footer>
 
     <script>
-        // Theme toggle functionality
         document.addEventListener('DOMContentLoaded', function() {
             const themeToggle = document.getElementById('themeToggle');
             const sunIcon = document.getElementById('sunIcon');
             const moonIcon = document.getElementById('moonIcon');
             const body = document.body;
             
-            // Modal elements
             const themeModal = document.getElementById('themeModal');
             const introModal = document.getElementById('introModal');
             const lightThemeOption = document.getElementById('lightThemeOption');
@@ -1346,25 +1321,20 @@
             const dontShowThemeAgain = document.getElementById('dontShowThemeAgain');
             const dontShowIntroAgain = document.getElementById('dontShowIntroAgain');
             
-            // Introduction modal elements
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
             const pageIndicators = document.querySelectorAll('.page-indicator');
             
-            // Check if user has disabled modals
             const dontShowTheme = localStorage.getItem('dontShowTheme');
             const dontShowIntro = localStorage.getItem('dontShowIntro');
             const hasSelectedTheme = localStorage.getItem('hasSelectedTheme');
             
-            // Current page in intro modal
             let currentPage = 1;
             const totalPages = 2;
             
-            // Check for saved theme preference or prefer-color-scheme
             const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
             const savedTheme = localStorage.getItem('theme');
             
-            // Set initial theme
             if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
                 enableDarkMode();
                 darkThemeOption.classList.add('active');
@@ -1375,8 +1345,6 @@
                 darkThemeOption.classList.remove('active');
             }
             
-            // Show modals on each visit unless disabled
-            // Only show theme modal if user hasn't selected a theme before
             if (!hasSelectedTheme && dontShowTheme !== 'true') {
                 setTimeout(() => {
                     themeModal.classList.add('active');
@@ -1387,7 +1355,6 @@
                 }, 300);
             }
             
-            // Theme selection in modal
             lightThemeOption.addEventListener('click', function() {
                 lightThemeOption.classList.add('active');
                 darkThemeOption.classList.remove('active');
@@ -1401,17 +1368,14 @@
             });
             
             confirmThemeBtn.addEventListener('click', function() {
-                // Save that user has selected a theme
                 localStorage.setItem('hasSelectedTheme', 'true');
                 
-                // Save preference if checkbox is checked
                 if (dontShowThemeAgain.checked) {
                     localStorage.setItem('dontShowTheme', 'true');
                 }
                 
                 themeModal.classList.remove('active');
                 
-                // Show intro modal if not disabled
                 if (dontShowIntro !== 'true') {
                     setTimeout(() => {
                         introModal.classList.add('active');
@@ -1419,7 +1383,6 @@
                 }
             });
             
-            // Intro modal navigation
             prevBtn.addEventListener('click', function() {
                 if (currentPage > 1) {
                     goToPage(currentPage - 1);
@@ -1430,7 +1393,6 @@
                 if (currentPage < totalPages) {
                     goToPage(currentPage + 1);
                 } else {
-                    // Last page - save preference if checkbox is checked
                     if (dontShowIntroAgain.checked) {
                         localStorage.setItem('dontShowIntro', 'true');
                     }
@@ -1439,7 +1401,6 @@
                 }
             });
             
-            // Page indicator clicks
             pageIndicators.forEach(indicator => {
                 indicator.addEventListener('click', function() {
                     const pageNum = parseInt(this.getAttribute('data-page'));
@@ -1447,22 +1408,12 @@
                 });
             });
             
-            // Function to navigate to specific page
             function goToPage(pageNum) {
-                // Hide current page
                 document.getElementById(`page${currentPage}`).classList.remove('active');
-                
-                // Show new page
                 document.getElementById(`page${pageNum}`).classList.add('active');
-                
-                // Update current page
                 currentPage = pageNum;
-                
-                // Update buttons
                 prevBtn.disabled = currentPage === 1;
                 nextBtn.textContent = currentPage === totalPages ? 'Get Started' : 'Next';
-                
-                // Update indicators
                 pageIndicators.forEach(indicator => {
                     const indicatorPage = parseInt(indicator.getAttribute('data-page'));
                     if (indicatorPage === currentPage) {
@@ -1473,7 +1424,6 @@
                 });
             }
             
-            // Toggle theme on header toggle click
             themeToggle.addEventListener('click', function() {
                 if (body.classList.contains('dark-mode')) {
                     enableLightMode();
@@ -1486,35 +1436,28 @@
                 }
             });
             
-            // Function to enable dark mode
             function enableDarkMode() {
                 body.classList.add('dark-mode');
                 sunIcon.classList.remove('active');
                 moonIcon.classList.add('active');
                 localStorage.setItem('theme', 'dark');
-                
-                // Add fade transition effect
                 body.style.opacity = '0.8';
                 setTimeout(() => {
                     body.style.opacity = '1';
                 }, 150);
             }
             
-            // Function to enable light mode
             function enableLightMode() {
                 body.classList.remove('dark-mode');
                 sunIcon.classList.add('active');
                 moonIcon.classList.remove('active');
                 localStorage.setItem('theme', 'light');
-                
-                // Add fade transition effect
                 body.style.opacity = '0.8';
                 setTimeout(() => {
                     body.style.opacity = '1';
                 }, 150);
             }
             
-            // Highlight current navigation item
             const navLinks = document.querySelectorAll('nav a');
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -1525,7 +1468,6 @@
                 });
             });
             
-            // Add animation to article cards on scroll
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
@@ -1540,7 +1482,6 @@
                 });
             }, observerOptions);
             
-            // Apply initial styles for animation
             const articleCards = document.querySelectorAll('.article-card');
             articleCards.forEach(card => {
                 card.style.opacity = '0';
@@ -1549,7 +1490,6 @@
                 observer.observe(card);
             });
             
-            // Featured article animation (removed but keeping code for future use)
             const featuredArticle = document.querySelector('.featured-article');
             if (featuredArticle) {
                 featuredArticle.style.opacity = '0';

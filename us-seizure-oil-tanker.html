@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US seizes oil tanker off Venezuela coast in latest pressure campaign | The Daily Brief</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.5s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        body {
+            font-family: 'EB Garamond', serif;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .theme-modal {
+            background-color: #fff;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .dark-mode .theme-modal {
+            background-color: #1e1e1e;
+        }
+        
+        .modal-overlay.active .theme-modal {
+            transform: translateY(0);
+        }
+        
+        .theme-modal h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #222;
+        }
+        
+        .dark-mode .theme-modal h2 {
+            color: #f0f0f0;
+        }
+        
+        .theme-modal p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+        }
+        
+        .dark-mode .theme-modal p {
+            color: #aaa;
+        }
+        
+        .theme-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .theme-option {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 25px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .dark-mode .theme-option {
+            background-color: #2a2a2a;
+        }
+        
+        .theme-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: #444;
+        }
+        
+        .theme-option.active {
+            border-color: #444;
+            background-color: #e8e8e8;
+        }
+        
+        .dark-mode .theme-option.active {
+            border-color: #666;
+            background-color: #333;
+        }
+        
+        .theme-preview {
+            height: 180px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .theme-preview.light {
+            background-color: #f8f8f8;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .theme-preview.dark {
+            background-color: #121212;
+            border: 1px solid #333;
+        }
+        
+        .preview-header {
+            height: 20%;
+            background-color: #fcfcfc;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+        
+        .dark-preview .preview-header {
+            background-color: #1e1e1e;
+            border-bottom: 1px solid #333;
+        }
+        
+        .preview-logo {
+            width: 30px;
+            height: 30px;
+            background-color: #333;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        .dark-preview .preview-logo {
+            background-color: #f0f0f0;
+        }
+        
+        .preview-title {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #222;
+        }
+        
+        .dark-preview .preview-title {
+            color: #f0f0f0;
+        }
+        
+        .preview-content {
+            height: 80%;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .preview-card {
+            background-color: #fefefe;
+            border-radius: 4px;
+            border: 1px solid #f0f0f0;
+            padding: 10px;
+        }
+        
+        .dark-preview .preview-card {
+            background-color: #222;
+            border: 1px solid #333;
+        }
+        
+        .preview-card-title {
+            height: 12px;
+            background-color: #444;
+            border-radius: 2px;
+            margin-bottom: 8px;
+        }
+        
+        .dark-preview .preview-card-title {
+            background-color: #555;
+        }
+        
+        .preview-card-text {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 2px;
+            margin-bottom: 5px;
+        }
+        
+        .dark-preview .preview-card-text {
+            background-color: #333;
+        }
+        
+        .theme-option h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #222;
+            text-align: center;
+        }
+        
+        .dark-mode .theme-option h3 {
+            color: #f0f0f0;
+        }
+        
+        .theme-option p {
+            color: #666;
+            text-align: center;
+            margin: 0;
+            font-size: 1rem;
+        }
+        
+        .dark-mode .theme-option p {
+            color: #aaa;
+        }
+        
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .theme-confirm-btn {
+            width: 200px;
+            padding: 15px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .theme-confirm-btn:hover {
+            background-color: #555;
+            transform: translateY(-2px);
+        }
+        
+        .dont-show-again {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+        }
+        
+        .dark-mode .dont-show-again {
+            color: #aaa;
+        }
+        
+        .dont-show-again input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        header {
+            background-color: #fcfcfc;
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+        
+        .dark-mode header {
+            background-color: #1e1e1e;
+            border-bottom: 1px solid #333;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-img {
+            height: 50px;
+            margin-right: 15px;
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #222;
+            letter-spacing: -1px;
+        }
+        
+        .dark-mode .logo-text {
+            color: #f0f0f0;
+        }
+        
+        .logo-text span {
+            color: #666;
+            font-weight: 400;
+        }
+        
+        .dark-mode .logo-text span {
+            color: #aaa;
+        }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .back-btn {
+            text-decoration: none;
+            color: #555;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+        
+        .dark-mode .back-btn {
+            color: #bbb;
+        }
+        
+        .back-btn:hover {
+            color: #222;
+        }
+        
+        .dark-mode .back-btn:hover {
+            color: #fff;
+        }
+        
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            background-color: #f0f0f0;
+            transition: all 0.3s;
+        }
+        
+        .dark-mode .theme-toggle {
+            background-color: #333;
+        }
+        
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .theme-icon {
+            font-size: 1.2rem;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .theme-icon.active {
+            color: #444;
+        }
+        
+        .dark-mode .theme-icon.active {
+            color: #ffd700;
+        }
+        
+        .theme-divider {
+            color: #bbb;
+            font-weight: 300;
+        }
+        
+        .article-header {
+            background-color: #fcfcfc;
+            padding: 60px 0 40px;
+            border-bottom: 1px solid #e5e5e5;
+            margin-bottom: 40px;
+        }
+        
+        .dark-mode .article-header {
+            background-color: #1a1a1a;
+            border-bottom: 1px solid #333;
+        }
+        
+        .article-category {
+            display: inline-block;
+            background-color: #f5f5f5;
+            color: #666;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .dark-mode .article-category {
+            background-color: #333;
+            color: #aaa;
+        }
+        
+        .article-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        
+        .dark-mode .article-title {
+            color: #f0f0f0;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .dark-mode .article-meta {
+            color: #888;
+            border-bottom: 1px solid #333;
+        }
+        
+        .article-hero-img {
+            width: 100%;
+            height: 400px;
+            background-color: #e8e8e8;
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        
+        .dark-mode .article-hero-img {
+            background-color: #333;
+        }
+        
+        .article-content {
+            background-color: #fefefe;
+            padding: 50px;
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+            margin-bottom: 50px;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .dark-mode .article-content {
+            background-color: #222;
+            border: 1px solid #333;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .article-content p {
+            margin-bottom: 25px;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+        
+        .dark-mode .article-content p {
+            color: #ddd;
+        }
+        
+        .article-content h2 {
+            font-size: 1.8rem;
+            margin: 40px 0 20px;
+            font-weight: 600;
+        }
+        
+        .dark-mode .article-content h2 {
+            color: #f0f0f0;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid #e0e0e0;
+            padding-left: 20px;
+            margin: 30px 0;
+            font-style: italic;
+            color: #666;
+            font-size: 1.3rem;
+            background-color: #fafafa;
+            padding: 20px;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .dark-mode .article-content blockquote {
+            border-left: 4px solid #555;
+            color: #ccc;
+            background-color: #2a2a2a;
+        }
+        
+        .source-card {
+            background-color: #fefefe;
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+            margin: 50px 0;
+            border: 1px solid #f0f0f0;
+            border-left: 4px solid #444;
+        }
+        
+        .dark-mode .source-card {
+            background-color: #222;
+            border: 1px solid #333;
+            border-left: 4px solid #666;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .source-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dark-mode .source-card h3 {
+            color: #f0f0f0;
+        }
+        
+        .source-card h3 i {
+            color: #666;
+        }
+        
+        .dark-mode .source-card h3 i {
+            color: #aaa;
+        }
+        
+        .source-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .dark-mode .source-card p {
+            color: #aaa;
+        }
+        
+        .source-link {
+            display: inline-block;
+            color: #444;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            padding: 8px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        
+        .dark-mode .source-link {
+            color: #ddd;
+            border: 1px solid #444;
+        }
+        
+        .source-link:hover {
+            background-color: #f5f5f5;
+            border-color: #444;
+        }
+        
+        .dark-mode .source-link:hover {
+            background-color: #333;
+            border-color: #666;
+        }
+        
+        .share-section {
+            background-color: #fefefe;
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+            margin-bottom: 50px;
+            text-align: center;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .dark-mode .share-section {
+            background-color: #222;
+            border: 1px solid #333;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .share-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .dark-mode .share-section h3 {
+            color: #f0f0f0;
+        }
+        
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+        }
+        
+        .dark-mode .share-btn {
+            background-color: #333;
+            color: #aaa;
+        }
+        
+        .share-btn:hover {
+            background-color: #444;
+            color: #fff;
+        }
+        
+        footer {
+            background-color: #f5f5f5;
+            border-top: 1px solid #e5e5e5;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .dark-mode footer {
+            background-color: #1a1a1a;
+            border-top: 1px solid #333;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 15px;
+        }
+        
+        .dark-mode .footer-logo {
+            color: #f0f0f0;
+        }
+        
+        .footer-about {
+            max-width: 400px;
+            color: #666;
+        }
+        
+        .dark-mode .footer-about {
+            color: #aaa;
+        }
+        
+        .copyright {
+            text-align: center;
+            color: #777;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+        }
+        
+        .dark-mode .copyright {
+            color: #888;
+            border-top: 1px solid #333;
+        }
+        
+        @media (max-width: 768px) {
+            .article-title {
+                font-size: 2.2rem;
+            }
+            
+            .article-hero-img {
+                height: 250px;
+            }
+            
+            .article-content {
+                padding: 30px 20px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .header-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .theme-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .theme-modal {
+                padding: 20px;
+            }
+            
+            .source-card {
+                padding: 20px;
+                margin: 30px 0;
+            }
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #444;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 3px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .dark-mode .btn {
+            background-color: #555;
+            color: #fff;
+        }
+        
+        .btn:hover {
+            background-color: #555;
+            transform: translateY(-1px);
+        }
+        
+        .dark-mode .btn:hover {
+            background-color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay" id="themeModal">
+        <div class="theme-modal">
+            <h2>Choose Your Theme</h2>
+            <p>Select a theme that matches your preference. You can always change it later.</p>
+            
+            <div class="theme-options">
+                <div class="theme-option active" id="lightThemeOption">
+                    <div class="theme-preview light">
+                        <div class="preview-header">
+                            <div class="preview-logo"></div>
+                            <div class="preview-title">The Daily Brief</div>
+                        </div>
+                        <div class="preview-content">
+                            <div class="preview-card">
+                                <div class="preview-card-title"></div>
+                                <div class="preview-card-text"></div>
+                                <div class="preview-card-text" style="width: 80%;"></div>
+                            </div>
+                            <div class="preview-card">
+                                <div class="preview-card-title"></div>
+                                <div class="preview-card-text"></div>
+                                <div class="preview-card-text" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Light Mode</h3>
+                    <p>Clean, bright interface perfect for daytime reading</p>
+                </div>
+                
+                <div class="theme-option" id="darkThemeOption">
+                    <div class="theme-preview dark">
+                        <div class="preview-header dark-preview">
+                            <div class="preview-logo"></div>
+                            <div class="preview-title">The Daily Brief</div>
+                        </div>
+                        <div class="preview-content">
+                            <div class="preview-card dark-preview">
+                                <div class="preview-card-title"></div>
+                                <div class="preview-card-text"></div>
+                                <div class="preview-card-text" style="width: 80%;"></div>
+                            </div>
+                            <div class="preview-card dark-preview">
+                                <div class="preview-card-title"></div>
+                                <div class="preview-card-text"></div>
+                                <div class="preview-card-text" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Dark Mode</h3>
+                    <p>Easier on the eyes, perfect for low-light environments</p>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="theme-confirm-btn" id="confirmThemeBtn">Continue with Selected Theme</button>
+                <div class="dont-show-again">
+                    <input type="checkbox" id="dontShowThemeAgain">
+                    <label for="dontShowThemeAgain">Do not show this again</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="logo.png" alt="The Daily Brief Logo" class="logo-img">
+                    <div class="logo-text">The Daily <span>Brief</span></div>
+                </div>
+                <div class="header-controls">
+                    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+                    <div class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-sun theme-icon" id="sunIcon"></i>
+                        <span class="theme-divider">|</span>
+                        <i class="fas fa-moon theme-icon" id="moonIcon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <article>
+            <div class="article-header">
+                <span class="article-category">World Affairs</span>
+                <h1 class="article-title">US seizes oil tanker off Venezuela coast in latest pressure campaign</h1>
+                <div class="article-meta">
+                    <span>By Brandon Livesay</span>
+                    <span>Dec 11, 2025 • 7 min read</span>
+                </div>
+                <div class="article-hero-img" style="background-image: url('https://static.srpcdigital.com/styles/1037xauto/public/2025-12/1304613_0.jpeg.webp');"></div>
+            </div>
+            
+            <div class="article-content">
+                <p>A US helicopter flies low over a hazy blue sea as it approaches a massive ship. It hovers as camouflaged soldiers holding rifles swing down ropes to the vessel's deck.</p>
+                
+                <p>The video, released by the US government, shows the latest in a series of escalations in Washington's pressure campaign on Nicolás Maduro's government – the seizure of a crude oil tanker.</p>
+                
+                <p>The US claims the tanker is used to transport sanctioned oil from Venezuela and Iran in an "illicit oil shipping network supporting foreign terrorist organizations".</p>
+                
+                <p>Venezuelan Foreign Minister Yvan Gil has called the seizure "international piracy" and claims US President Donald Trump wants Venezuela's energy resources.</p>
+                
+                <h2>The Military Operation</h2>
+                
+                <blockquote>
+                    "We have just seized a tanker on the coast of Venezuela - a large tanker, very large, the largest one ever seized actually," Trump told reporters at the White House on Wednesday.
+                </blockquote>
+                
+                <p>The footage of the operation was shared by Attorney General Pam Bondi on social media. Bondi said a seizure warrant for the tanker was carried out by the US Coast Guard, FBI, Homeland Security Investigations and the Pentagon.</p>
+                
+                <p>The exact location of the tanker at the time of the seizure is not clear, but a senior military official told BBC's US partner CBS News that the vessel had just left a port in Venezuela.</p>
+                
+                <p>The 45-second video shows a US team walking the deck of the ship with their weapons drawn. No ship crew are visible.</p>
+                
+                <p>The seizure involved two helicopters, 10 marines and 10 US Coast Guard members, and special operations forces, a source familiar with the operation told CBS.</p>
+                
+                <p>This team is trained in counterterrorism and high-risk law enforcement boarding procedures – like the fast-rope boarding from a helicopter seen in the video. It was created after the September 11 attacks, during an overhaul of national security.</p>
+                
+                <p>The Coast Guard led the operation with support from the Navy, officials told CBS.</p>
+                
+                <h2>Legal Questions</h2>
+                
+                <p>Victor Hansen, a former military lawyer and law professor at New England Law in Boston, said that the Trump administration has "not been really clear in articulating a legal justification" for the seizure.</p>
+                
+                <p>"They don't seem to be relying on a military justification, unlike the targeting of the [drug] boats," he added. "This seems more related to violating sanctions imposed on both Venezuela and Iran."</p>
+                
+                <p>According to Mr Hansen, military operations including "visit, board, search and seizure" missions at sea always include both "formal and off-the-cuff" inputs from military lawyers both before and during the operation.</p>
+                
+                <p>"But they have no command authority to approve or refuse an operation," he added. "What they do is advise commanders on the legalities, risks and rewards."</p>
+                
+                <p>Even if the Venezuelan seizure was carried out by non-military law enforcement units such as those from the Coast Guard, "there are lawyers that would serve similar roles."</p>
+                
+                <p>Mr Hansen also noted that while ship boarding missions have taken place in the past - such as in the Persian Gulf or Arabian Sea - the recent incident is distinct in that the ship was seized in addition to its cargo.</p>
+                
+                <p>"That's not something that has been done in the recent past," he said.</p>
+                
+                <h2>The Seized Vessel and Oil</h2>
+                
+                <p>Maritime risk company Vanguard Tech identified the vessel as the Skipper and said it believed the ship had been "spoofing" its position - or broadcasting a false location - for a long time.</p>
+                
+                <p>Vanguard Tech said the vessel was "reported to be part of the dark fleet, and was sanctioned by the United States for carrying Venezuelan oil exports". The dark fleet refers to ships used to smuggle sanctioned goods.</p>
+                
+                <p>It is believed to have left the oil port of Jose on either 4 or 5 December, with about 1.8 million barrels of heavy crude oil on board, with about 200,000 barrels transferred to another vessel before the seizure, Reuters reported, citing analysis from TankerTrackers.com and the Venezuelan state oil company PDVSA.</p>
+                
+                <p>The US treasury department sanctioned the Skipper in 2022, CBS reported, for alleged involvement in oil smuggling that generated revenue for the Hezbollah group in Lebanon and the Islamic Revolutionary Guard Corps-Quds Force in Iran.</p>
+                
+                <p>When asked by reporters what the US would do with the oil carried by the tanker, Trump said: "We keep it, I guess... I assume we're going to keep the oil."</p>
+                
+                <p>Global crude oil prices are trading at roughly $61 (£46) a barrel, meaning the stash aboard the Skipper could be worth more than $95m - if it does indeed comprise 1.6m barrels after 200,000 were removed.</p>
+                
+                <h2>Broader Geopolitical Context</h2>
+                
+                <p>Bondi, the top prosecutor in the US, said of the seized vessel: "For multiple years, the oil tanker has been sanctioned by the United States due to its involvement in an illicit oil shipping network supporting foreign terrorist organizations."</p>
+                
+                <p>Maduro has accused the US of using its ongoing military buildup in the Caribbean and "war on drugs" to try and depose him and get its hands on Venezuela's oil - something the US denies.</p>
+                
+                <p>Venezuela sits on the largest known reserves of crude oil in the world. But analysts have highlighted complexities. The oil is considered "heavy" and highly viscous, meaning that extracting it needs special equipment and knowledge.</p>
+                
+                <p>Venezuela has also had difficulties exporting its vast resources because of ageing infrastructure and heavy sanctions from the US.</p>
+                
+                <p>The world's largest warship - the USS Gerald Ford - was used as a staging post for Wednesday's tanker seizure, highlighting the scale of US military deployment in the region.</p>
+                
+                <h2>Wider US Pressure Campaign</h2>
+                
+                <p>The Trump administration has focused for much of the last year on fighting the influx of drugs - especially fentanyl and cocaine - into the US.</p>
+                
+                <p>As part of the effort, Trump designated two Venezuelan criminal groups - Tren de Aragua and Cartel de los Soles - as Foreign Terrorist Organisations and has alleged that the latter is led by Maduro himself.</p>
+                
+                <p>Without providing evidence, Trump has also accused Maduro of "emptying his prisons and insane asylums" and "forcing" its inmates to migrate to the US. Stopping immigration has been another priority for the White House.</p>
+                
+                <p>As part of the pressure campaign, the US has deployed 15,000 troops and a range of aircraft carriers, guided-missile destroyers, and amphibious assault ships to the Caribbean.</p>
+                
+                <p>Mick Mulroy, a former Marine, CIA paramilitary officer and deputy under secretary of defence at the Pentagon, told the BBC that the seizure of the tanker will "amp up pressure" on the Venezuelan government amid the broader campaign.</p>
+                
+                <p>"Venezuela has a considerable amount of oil reserves," he said. "Seizing a tanker transporting oil or a tanker carrying the chemicals needed to pump the crude oil out of the ground sends a message, specifically if this is just the beginning of a campaign."</p>
+                
+                <p>Since early September, US forces have carried out more than 20 strikes in international waters on boats alleged to have been carrying drugs. More than 80 people have been killed.</p>
+                
+                <p>The Trump administration argues that it is involved in a non-international armed conflict with the alleged drug traffickers, whom it accuses of conducting irregular warfare against the US.</p>
+                
+                <p>The US has also described those on board as "narco terrorists" but legal experts say the strikes are unlawful as that designation "did not transform them into lawful military targets".</p>
+            </div>
+            
+            <div class="source-card">
+                <h3><i class="fas fa-newspaper"></i> Article Source</h3>
+                <p>This article is based on reporting from The Guardian. For the original reporting and additional details, visit the source article.</p>
+                <a href="https://www.theguardian.com/us-news/2025/dec/10/us-forces-reportedly-seize-oil-tanker-off-venezuela-coast" class="source-link" target="_blank">View Original Article on The Guardian</a>
+            </div>
+            
+            <div class="share-section">
+                <h3>Share this article</h3>
+                <div class="share-buttons">
+                    <a href="#" class="share-btn" title="Share on Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="share-btn" title="Share on Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="share-btn" title="Share on LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="share-btn" title="Share via Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </article>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">The Daily Brief</div>
+                    <p>Delivering thoughtful, in-depth journalism that helps readers understand the complex world around us.</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 The Daily Brief. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+            const body = document.body;
+            
+            const themeModal = document.getElementById('themeModal');
+            const lightThemeOption = document.getElementById('lightThemeOption');
+            const darkThemeOption = document.getElementById('darkThemeOption');
+            const confirmThemeBtn = document.getElementById('confirmThemeBtn');
+            const dontShowThemeAgain = document.getElementById('dontShowThemeAgain');
+            
+            const dontShowTheme = localStorage.getItem('dontShowTheme');
+            const hasSelectedTheme = localStorage.getItem('hasSelectedTheme');
+            
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            const savedTheme = localStorage.getItem('theme');
+            
+            if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
+                enableDarkMode();
+                darkThemeOption.classList.add('active');
+                lightThemeOption.classList.remove('active');
+            } else {
+                enableLightMode();
+                lightThemeOption.classList.add('active');
+                darkThemeOption.classList.remove('active');
+            }
+            
+            if (!hasSelectedTheme && dontShowTheme !== 'true') {
+                setTimeout(() => {
+                    themeModal.classList.add('active');
+                }, 300);
+            }
+            
+            lightThemeOption.addEventListener('click', function() {
+                lightThemeOption.classList.add('active');
+                darkThemeOption.classList.remove('active');
+                enableLightMode();
+            });
+            
+            darkThemeOption.addEventListener('click', function() {
+                darkThemeOption.classList.add('active');
+                lightThemeOption.classList.remove('active');
+                enableDarkMode();
+            });
+            
+            confirmThemeBtn.addEventListener('click', function() {
+                localStorage.setItem('hasSelectedTheme', 'true');
+                
+                if (dontShowThemeAgain.checked) {
+                    localStorage.setItem('dontShowTheme', 'true');
+                }
+                
+                themeModal.classList.remove('active');
+            });
+            
+            themeToggle.addEventListener('click', function() {
+                if (body.classList.contains('dark-mode')) {
+                    enableLightMode();
+                    lightThemeOption.classList.add('active');
+                    darkThemeOption.classList.remove('active');
+                } else {
+                    enableDarkMode();
+                    darkThemeOption.classList.add('active');
+                    lightThemeOption.classList.remove('active');
+                }
+            });
+            
+            function enableDarkMode() {
+                body.classList.add('dark-mode');
+                sunIcon.classList.remove('active');
+                moonIcon.classList.add('active');
+                localStorage.setItem('theme', 'dark');
+                
+                body.style.opacity = '0.8';
+                setTimeout(() => {
+                    body.style.opacity = '1';
+                }, 150);
+            }
+            
+            function enableLightMode() {
+                body.classList.remove('dark-mode');
+                sunIcon.classList.add('active');
+                moonIcon.classList.remove('active');
+                localStorage.setItem('theme', 'light');
+                
+                body.style.opacity = '0.8';
+                setTimeout(() => {
+                    body.style.opacity = '1';
+                }, 150);
+            }
+            
+            const currentUrl = encodeURIComponent(window.location.href);
+            const articleTitle = encodeURIComponent(document.title);
+            
+            document.querySelectorAll('.share-btn').forEach(btn => {
+                const platform = btn.querySelector('i').className;
+                let shareUrl = '#';
+                
+                if (platform.includes('twitter')) {
+                    shareUrl = `https://twitter.com/intent/tweet?url=${currentUrl}&text=${articleTitle}`;
+                } else if (platform.includes('facebook')) {
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+                } else if (platform.includes('linkedin')) {
+                    shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${currentUrl}&title=${articleTitle}`;
+                } else if (platform.includes('envelope')) {
+                    shareUrl = `mailto:?subject=${articleTitle}&body=Read this article: ${currentUrl}`;
+                }
+                
+                btn.href = shareUrl;
+                btn.target = '_blank';
+            });
+        });
+    </script>
+</body>
+</html>

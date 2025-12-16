@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Daily Brief</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.5s ease, color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+        }
+        
+        body {
+            font-family: 'EB Garamond', serif;
+            background-color: #f8f8f8; /* Softer background */
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Theme Selection Modal */
+        .theme-modal {
+            background-color: #fff;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .dark-mode .theme-modal {
+            background-color: #1e1e1e;
+        }
+        
+        .modal-overlay.active .theme-modal {
+            transform: translateY(0);
+        }
+        
+        .theme-modal h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #222;
+        }
+        
+        .dark-mode .theme-modal h2 {
+            color: #f0f0f0;
+        }
+        
+        .theme-modal p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+        }
+        
+        .dark-mode .theme-modal p {
+            color: #aaa;
+        }
+        
+        .theme-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .theme-option {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 25px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .dark-mode .theme-option {
+            background-color: #2a2a2a;
+        }
+        
+        .theme-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: #444;
+        }
+        
+        .theme-option.active {
+            border-color: #444;
+            background-color: #e8e8e8;
+        }
+        
+        .dark-mode .theme-option.active {
+            border-color: #666;
+            background-color: #333;
+        }
+        
+        .theme-preview {
+            height: 180px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .theme-preview.light {
+            background-color: #f8f8f8;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .theme-preview.dark {
+            background-color: #121212;
+            border: 1px solid #333;
+        }
+        
+        .preview-header {
+            height: 20%;
+            background-color: #fcfcfc;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+        
+        .dark-preview .preview-header {
+            background-color: #1e1e1e;
+            border-bottom: 1px solid #333;
+        }
+        
+        .preview-logo {
+            width: 30px;
+            height: 30px;
+            background-color: #333;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        .dark-preview .preview-logo {
+            background-color: #f0f0f0;
+        }
+        
+        .preview-title {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #222;
+        }
+        
+        .dark-preview .preview-title {
+            color: #f0f0f0;
+        }
+        
+        .preview-content {
+            height: 80%;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .preview-card {
+            background-color: #fefefe;
+            border-radius: 4px;
+            border: 1px solid #f0f0f0;
+            padding: 10px;
+        }
+        
+        .dark-preview .preview-card {
+            background-color: #222;
+            border: 1px solid #333;
+        }
+        
+        .preview-card-title {
+            height: 12px;
+            background-color: #444;
+            border-radius: 2px;
+            margin-bottom: 8px;
+        }
+        
+        .dark-preview .preview-card-title {
+            background-color: #555;
+        }
+        
+        .preview-card-text {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 2px;
+            margin-bottom: 5px;
+        }
+        
+        .dark-preview .preview-card-text {
+            background-color: #333;
+        }
+        
+        .theme-option h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #222;
+            text-align: center;
+        }
+        
+        .dark-mode .theme-option h3 {
+            color: #f0f0f0;
+        }
+        
+        .theme-option p {
+            color: #666;
+            text-align: center;
+            margin: 0;
+            font-size: 1rem;
+        }
+        
+        .dark-mode .theme-option p {
+            color: #aaa;
+        }
+        
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .theme-confirm-btn {
+            width: 200px;
+            padding: 15px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .theme-confirm-btn:hover {
+            background-color: #555;
+            transform: translateY(-2px);
+        }
+        
+        .dont-show-again {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+        }
+        
+        .dark-mode .dont-show-again {
+            color: #aaa;
+        }
+        
+        .dont-show-again input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        /* Introduction Modal */
+        .intro-modal {
+            background-color: #fff;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 700px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        
+        .dark-mode .intro-modal {
+            background-color: #1e1e1e;
+        }
+        
+        .modal-overlay.active .intro-modal {
+            transform: translateY(0);
+        }
+        
+        .intro-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .intro-header h2 {
+            font-size: 2.5rem;
+            color: #222;
+            margin-bottom: 10px;
+        }
+        
+        .dark-mode .intro-header h2 {
+            color: #f0f0f0;
+        }
+        
+        .intro-content {
+            min-height: 300px;
+            margin-bottom: 40px;
+        }
+        
+        .intro-page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+            text-align: center;
+        }
+        
+        .intro-page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .welcome-page h3 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #222;
+        }
+        
+        .dark-mode .welcome-page h3 {
+            color: #f0f0f0;
+        }
+        
+        .welcome-icon {
+            font-size: 5rem;
+            color: #444;
+            margin-bottom: 30px;
+        }
+        
+        .dark-mode .welcome-icon {
+            color: #ffd700;
+        }
+        
+        .welcome-message {
+            font-size: 1.5rem;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .dark-mode .welcome-message {
+            color: #ccc;
+        }
+        
+        .team-page h3 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: #222;
+        }
+        
+        .dark-mode .team-page h3 {
+            color: #f0f0f0;
+        }
+        
+        .team-members {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-bottom: 30px;
+        }
+        
+        .team-member {
+            text-align: center;
+        }
+        
+        .member-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #444;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .dark-mode .member-avatar {
+            background-color: #555;
+        }
+        
+        .member-name {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #222;
+        }
+        
+        .dark-mode .member-name {
+            color: #f0f0f0;
+        }
+        
+        .intro-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+        
+        .intro-btn {
+            padding: 12px 25px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .intro-btn:hover:not(:disabled) {
+            background-color: #555;
+            transform: translateY(-2px);
+        }
+        
+        .intro-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .page-indicators {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .page-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ddd;
+            transition: all 0.3s;
+        }
+        
+        .dark-mode .page-indicator {
+            background-color: #444;
+        }
+        
+        .page-indicator.active {
+            background-color: #444;
+            transform: scale(1.2);
+        }
+        
+        .dark-mode .page-indicator.active {
+            background-color: #ffd700;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #fcfcfc; /* Off-white instead of pure white */
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+        
+        .dark-mode header {
+            background-color: #1e1e1e;
+            border-bottom: 1px solid #333;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-img {
+            height: 60px;
+            margin-right: 15px;
+        }
+        
+        .logo-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #222;
+            letter-spacing: -1px;
+        }
+        
+        .dark-mode .logo-text {
+            color: #f0f0f0;
+        }
+        
+        .logo-text span {
+            color: #666;
+            font-weight: 400;
+        }
+        
+        .dark-mode .logo-text span {
+            color: #aaa;
+        }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 30px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #555;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .dark-mode nav a {
+            color: #bbb;
+        }
+        
+        nav a:hover {
+            color: #222;
+        }
+        
+        .dark-mode nav a:hover {
+            color: #fff;
+        }
+        
+        .current {
+            color: #222;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .dark-mode .current {
+            color: #fff;
+            border-bottom: 2px solid #666;
+        }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            background-color: #f0f0f0;
+            transition: all 0.3s;
+        }
+        
+        .dark-mode .theme-toggle {
+            background-color: #333;
+        }
+        
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .theme-icon {
+            font-size: 1.2rem;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .theme-icon.active {
+            color: #444;
+        }
+        
+        .dark-mode .theme-icon {
+            color: #aaa;
+        }
+        
+        .dark-mode .theme-icon.active {
+            color: #ffd700;
+        }
+        
+        .theme-divider {
+            color: #bbb;
+            font-weight: 300;
+        }
+        
+        /* Main Content */
+        .hero {
+            background-color: #fcfcfc; /* Off-white */
+            padding: 60px 0;
+            border-bottom: 1px solid #e5e5e5;
+            margin-bottom: 40px;
+        }
+        
+        .dark-mode .hero {
+            background-color: #1a1a1a;
+            border-bottom: 1px solid #333;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            max-width: 800px;
+        }
+        
+        .dark-mode .hero h1 {
+            color: #f0f0f0;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+        }
+        
+        .dark-mode .hero p {
+            color: #aaa;
+        }
+        
+        /* Article Grid */
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .dark-mode .section-title {
+            color: #f0f0f0;
+            border-bottom: 1px solid #444;
+        }
+        
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .article-card {
+            background-color: #fefefe; /* Slightly off-white */
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .dark-mode .article-card {
+            background-color: #222;
+            border: 1px solid #333;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        }
+        
+        .dark-mode .article-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .article-img {
+            height: 200px;
+            background-color: #e8e8e8;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .dark-mode .article-img {
+            background-color: #333;
+        }
+        
+        .article-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .article-category {
+            display: inline-block;
+            background-color: #f5f5f5;
+            color: #666;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .dark-mode .article-category {
+            background-color: #333;
+            color: #aaa;
+        }
+        
+        .article-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .dark-mode .article-title {
+            color: #f0f0f0;
+        }
+        
+        .article-excerpt {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            flex-grow: 1;
+        }
+        
+        .dark-mode .article-excerpt {
+            color: #aaa;
+        }
+        
+        .article-actions {
+            margin-top: 15px;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        
+        .dark-mode .article-meta {
+            color: #888;
+            border-top: 1px solid #333;
+        }
+        
+        /* Featured Article */
+        .featured-article {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+            background-color: #fefefe;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f0f0f0;
+        }
+        
+        .dark-mode .featured-article {
+            background-color: #222;
+            border: 1px solid #333;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .featured-img {
+            height: 400px;
+            background-color: #e0e0e0;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .dark-mode .featured-img {
+            background-color: #333;
+        }
+        
+        .featured-content {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .featured-category {
+            display: inline-block;
+            background-color: #f5f5f5;
+            color: #666;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .dark-mode .featured-category {
+            background-color: #333;
+            color: #aaa;
+        }
+        
+        .featured-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        
+        .dark-mode .featured-title {
+            color: #f0f0f0;
+        }
+        
+        .featured-excerpt {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+        }
+        
+        .dark-mode .featured-excerpt {
+            color: #aaa;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #f5f5f5; /* Light grey footer */
+            border-top: 1px solid #e5e5e5;
+            padding: 50px 0 30px;
+            margin-top: 50px;
+        }
+        
+        .dark-mode footer {
+            background-color: #1a1a1a;
+            border-top: 1px solid #333;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 15px;
+        }
+        
+        .dark-mode .footer-logo {
+            color: #f0f0f0;
+        }
+        
+        .footer-about {
+            max-width: 400px;
+            color: #666;
+        }
+        
+        .dark-mode .footer-about {
+            color: #aaa;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .footer-links h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .dark-mode .footer-links h3 {
+            color: #f0f0f0;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            text-decoration: none;
+            color: #666;
+            transition: color 0.3s;
+        }
+        
+        .dark-mode .footer-links a {
+            color: #aaa;
+        }
+        
+        .footer-links a:hover {
+            color: #222;
+        }
+        
+        .dark-mode .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .copyright {
+            text-align: center;
+            color: #777;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+        }
+        
+        .dark-mode .copyright {
+            color: #888;
+            border-top: 1px solid #333;
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .featured-article {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-img {
+                height: 300px;
+            }
+            
+            .theme-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-members {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-container {
+                justify-content: center;
+                margin-bottom: 15px;
+            }
+            
+            .header-controls {
+                flex-direction: column;
+                gap: 15px;
+                margin-top: 15px;
+            }
+            
+            nav ul {
+                margin-top: 10px;
+                justify-content: center;
+            }
+            
+            nav li {
+                margin: 0 10px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .footer-links {
+                margin-top: 30px;
+                flex-wrap: wrap;
+            }
+            
+            .theme-modal, .intro-modal {
+                padding: 20px;
+            }
+            
+            .intro-navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .intro-btn {
+                width: 100%;
+            }
+        }
+        
+        /* Utility Classes */
+        .btn {
+            display: inline-block;
+            background-color: #444;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 3px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        
+        .dark-mode .btn {
+            background-color: #555;
+            color: #fff;
+        }
+        
+        .btn:hover {
+            background-color: #555;
+            transform: translateY(-1px);
+        }
+        
+        .dark-mode .btn:hover {
+            background-color: #666;
+        }
+        
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        .dark-mode .btn-outline {
+            color: #ddd;
+            border: 1px solid #666;
+        }
+        
+        .btn-outline:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .dark-mode .btn-outline:hover {
+            background-color: #333;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mb-40 {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Selection Modal -->
+    <div class="modal-overlay" id="themeModal">
+        <div class="theme-modal">
+            <h2>Choose Your Theme</h2>
+            <p>Select a theme that matches your preference. You can always change it later.</p>
+            
+            <div class="theme-options">
+                <div class="theme-option active" id="lightThemeOption">
+                    <div class="theme-preview light">
+                        <div class="preview-header">
+                            <div class="preview-logo"></div>
+                            <div class="preview-title">The Daily Brief</div>
+                        </div>
+                        <div class="preview-content">
+                            <div class="preview-card">
+                                <div class="preview-card-title"></div>
+                                <div class="preview-card-text"></div>
+                                <div class="preview-card-text" style="width: 80%;"></div>
+                            </div>
+                            <div class="preview-card">
+                                <div class="preview-card-title"></div>
+                                <div class="preview-card-text"></div>
+                                <div class="preview-card-text" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Light Mode</h3>
+                    <p>Clean, bright interface perfect for daytime reading</p>
+                </div>
+                
+                <div class="theme-option" id="darkThemeOption">
+                    <div class="theme-preview dark">
+                        <div class="preview-header dark-preview">
+                            <div class="preview-logo"></div>
+                            <div class="preview-title">The Daily Brief</div>
+                        </div>
+                        <div class="preview-content">
+                            <div class="preview-card dark-preview">
+                                <div class="preview-card-title"></div>
+                                <div class="preview-card-text"></div>
+                                <div class="preview-card-text" style="width: 80%;"></div>
+                            </div>
+                            <div class="preview-card dark-preview">
+                                <div class="preview-card-title"></div>
+                                <div class="preview-card-text"></div>
+                                <div class="preview-card-text" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Dark Mode</h3>
+                    <p>Easier on the eyes, perfect for low-light environments</p>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="theme-confirm-btn" id="confirmThemeBtn">Continue with Selected Theme</button>
+                <div class="dont-show-again">
+                    <input type="checkbox" id="dontShowThemeAgain">
+                    <label for="dontShowThemeAgain">Do not show this again</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Introduction Modal -->
+    <div class="modal-overlay" id="introModal">
+        <div class="intro-modal">
+            <div class="intro-header">
+                <h2>Welcome to The Daily Brief</h2>
+            </div>
+            
+            <div class="intro-content">
+                <!-- Page 1: Welcome -->
+                <div class="intro-page welcome-page active" id="page1">
+                    <div class="welcome-icon">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <h3>Welcome!</h3>
+                    <p class="welcome-message">Welcome to The Daily Brief - your source for quality journalism.</p>
+                </div>
+                
+                <!-- Page 2: Team Introduction -->
+                <div class="intro-page team-page" id="page2">
+                    <h3>Our Team</h3>
+                    <div class="team-members">
+                        <div class="team-member">
+                            <div class="member-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h4 class="member-name">Sam Kroder</h4>
+                        </div>
+                        
+                        <div class="team-member">
+                            <div class="member-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h4 class="member-name">Bram Markovic</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="intro-navigation">
+                <button class="intro-btn" id="prevBtn" disabled>Previous</button>
+                
+                <div class="page-indicators">
+                    <div class="page-indicator active" data-page="1"></div>
+                    <div class="page-indicator" data-page="2"></div>
+                </div>
+                
+                <button class="intro-btn" id="nextBtn">Next</button>
+            </div>
+            
+            <div class="modal-actions">
+                <div class="dont-show-again">
+                    <input type="checkbox" id="dontShowIntroAgain">
+                    <label for="dontShowIntroAgain">Do not show this again</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Website Content -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="logo.png" alt="The Daily Brief Logo" class="logo-img">
+                    <div class="logo-text">The Daily <span>Brief</span></div>
+                </div>
+                <div class="header-controls">
+                    <nav>
+                        <ul>
+                            <li><a href="#" class="current">Home</a></li>
+                            <li><a href="#">Latest News</a></li>
+                        </ul>
+                    </nav>
+                    <div class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-sun theme-icon" id="sunIcon"></i>
+                        <span class="theme-divider">|</span>
+                        <i class="fas fa-moon theme-icon" id="moonIcon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <section class="hero">
+            <h1>Stay informed with clarity and perspective on today's most important stories.</h1>
+            <p>Your trusted source for comprehensive news coverage, analysis, and commentary from around the globe.</p>
+        </section>
+        
+        <h2 class="section-title">Latest News</h2>
+        <div class="articles-grid">
+            <!-- Article 1: Australia's Social Media Ban -->
+            <article class="article-card">
+                <div class="article-img" style="background-image: url('https://images.unsplash.com/photo-1611605698323-b1e99cfd37ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80');"></div>
+                <div class="article-content">
+                    <span class="article-category">Technology & Society</span>
+                    <h3 class="article-title">'Grand social experiment': Australia's social media ban turns heads globally</h3>
+                    <p class="article-excerpt">Australia's world-first laws stopping children accessing social media until they turn 16 has drawn mixed reactions from international media.</p>
+                    <div class="article-actions">
+                        <a href="australia-social-media-ban.html" class="btn btn-small">Read Full Article</a>
+                    </div>
+                    <div class="article-meta">
+                        <span>By Tory Shepherd</span>
+                        <span>Dec 10, 2025</span>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- Article 2: Bondi Beach Attack -->
+            <article class="article-card">
+                <div class="article-img" style="background-image: url('https://www.aljazeera.com/wp-content/uploads/2025/12/afp_693ed14f2468-1765724495.jpg?resize=770%2C513&quality=80');"></div>
+                <div class="article-content">
+                    <span class="article-category">Breaking News</span>
+                    <h3 class="article-title">Deadly attack on Bondi Beach's Jewish community shocks Australia</h3>
+                    <p class="article-excerpt">At least 15 people killed in targeted antisemitic terrorist attack during Hanukah celebration at Sydney's famous beach.</p>
+                    <div class="article-actions">
+                        <a href="bondi-beach-attack.html" class="btn btn-small">Read Full Article</a>
+                    </div>
+                    <div class="article-meta">
+                        <span>By Martin Belam</span>
+                        <span>Dec 15, 2025</span>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- Article 3: US Seizure of Oil Tanker -->
+            <article class="article-card">
+                <div class="article-img" style="background-image: url('https://static.srpcdigital.com/styles/1037xauto/public/2025-12/1304613_0.jpeg.webp');"></div>
+                <div class="article-content">
+                    <span class="article-category">World Affairs</span>
+                    <h3 class="article-title">US seizes oil tanker off Venezuela coast in latest pressure campaign</h3>
+                    <p class="article-excerpt">Dramatic video shows US military operation to seize crude oil tanker allegedly used to transport sanctioned oil.</p>
+                    <div class="article-actions">
+                        <a href="us-seizure-oil-tanker.html" class="btn btn-small">Read Full Article</a>
+                    </div>
+                    <div class="article-meta">
+                        <span>By Brandon Livesay</span>
+                        <span>Dec 11, 2025</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">The Daily Brief</div>
+                    <p>Delivering thoughtful, in-depth journalism that helps readers understand the complex world around us. Our mission is to provide clarity without sensationalism.</p>
+                </div>
+                <div class="footer-links">
+                    <div>
+                        <h3>Sections</h3>
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Latest News</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 The Daily Brief. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+            const body = document.body;
+            
+            // Modal elements
+            const themeModal = document.getElementById('themeModal');
+            const introModal = document.getElementById('introModal');
+            const lightThemeOption = document.getElementById('lightThemeOption');
+            const darkThemeOption = document.getElementById('darkThemeOption');
+            const confirmThemeBtn = document.getElementById('confirmThemeBtn');
+            const dontShowThemeAgain = document.getElementById('dontShowThemeAgain');
+            const dontShowIntroAgain = document.getElementById('dontShowIntroAgain');
+            
+            // Introduction modal elements
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const pageIndicators = document.querySelectorAll('.page-indicator');
+            
+            // Check if user has disabled modals
+            const dontShowTheme = localStorage.getItem('dontShowTheme');
+            const dontShowIntro = localStorage.getItem('dontShowIntro');
+            const hasSelectedTheme = localStorage.getItem('hasSelectedTheme');
+            
+            // Current page in intro modal
+            let currentPage = 1;
+            const totalPages = 2;
+            
+            // Check for saved theme preference or prefer-color-scheme
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            const savedTheme = localStorage.getItem('theme');
+            
+            // Set initial theme
+            if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
+                enableDarkMode();
+                darkThemeOption.classList.add('active');
+                lightThemeOption.classList.remove('active');
+            } else {
+                enableLightMode();
+                lightThemeOption.classList.add('active');
+                darkThemeOption.classList.remove('active');
+            }
+            
+            // Show modals on each visit unless disabled
+            // Only show theme modal if user hasn't selected a theme before
+            if (!hasSelectedTheme && dontShowTheme !== 'true') {
+                setTimeout(() => {
+                    themeModal.classList.add('active');
+                }, 300);
+            } else if (!hasSelectedTheme && dontShowIntro !== 'true') {
+                setTimeout(() => {
+                    introModal.classList.add('active');
+                }, 300);
+            }
+            
+            // Theme selection in modal
+            lightThemeOption.addEventListener('click', function() {
+                lightThemeOption.classList.add('active');
+                darkThemeOption.classList.remove('active');
+                enableLightMode();
+            });
+            
+            darkThemeOption.addEventListener('click', function() {
+                darkThemeOption.classList.add('active');
+                lightThemeOption.classList.remove('active');
+                enableDarkMode();
+            });
+            
+            confirmThemeBtn.addEventListener('click', function() {
+                // Save that user has selected a theme
+                localStorage.setItem('hasSelectedTheme', 'true');
+                
+                // Save preference if checkbox is checked
+                if (dontShowThemeAgain.checked) {
+                    localStorage.setItem('dontShowTheme', 'true');
+                }
+                
+                themeModal.classList.remove('active');
+                
+                // Show intro modal if not disabled
+                if (dontShowIntro !== 'true') {
+                    setTimeout(() => {
+                        introModal.classList.add('active');
+                    }, 500);
+                }
+            });
+            
+            // Intro modal navigation
+            prevBtn.addEventListener('click', function() {
+                if (currentPage > 1) {
+                    goToPage(currentPage - 1);
+                }
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                if (currentPage < totalPages) {
+                    goToPage(currentPage + 1);
+                } else {
+                    // Last page - save preference if checkbox is checked
+                    if (dontShowIntroAgain.checked) {
+                        localStorage.setItem('dontShowIntro', 'true');
+                    }
+                    
+                    introModal.classList.remove('active');
+                }
+            });
+            
+            // Page indicator clicks
+            pageIndicators.forEach(indicator => {
+                indicator.addEventListener('click', function() {
+                    const pageNum = parseInt(this.getAttribute('data-page'));
+                    goToPage(pageNum);
+                });
+            });
+            
+            // Function to navigate to specific page
+            function goToPage(pageNum) {
+                // Hide current page
+                document.getElementById(`page${currentPage}`).classList.remove('active');
+                
+                // Show new page
+                document.getElementById(`page${pageNum}`).classList.add('active');
+                
+                // Update current page
+                currentPage = pageNum;
+                
+                // Update buttons
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.textContent = currentPage === totalPages ? 'Get Started' : 'Next';
+                
+                // Update indicators
+                pageIndicators.forEach(indicator => {
+                    const indicatorPage = parseInt(indicator.getAttribute('data-page'));
+                    if (indicatorPage === currentPage) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Toggle theme on header toggle click
+            themeToggle.addEventListener('click', function() {
+                if (body.classList.contains('dark-mode')) {
+                    enableLightMode();
+                    lightThemeOption.classList.add('active');
+                    darkThemeOption.classList.remove('active');
+                } else {
+                    enableDarkMode();
+                    darkThemeOption.classList.add('active');
+                    lightThemeOption.classList.remove('active');
+                }
+            });
+            
+            // Function to enable dark mode
+            function enableDarkMode() {
+                body.classList.add('dark-mode');
+                sunIcon.classList.remove('active');
+                moonIcon.classList.add('active');
+                localStorage.setItem('theme', 'dark');
+                
+                // Add fade transition effect
+                body.style.opacity = '0.8';
+                setTimeout(() => {
+                    body.style.opacity = '1';
+                }, 150);
+            }
+            
+            // Function to enable light mode
+            function enableLightMode() {
+                body.classList.remove('dark-mode');
+                sunIcon.classList.add('active');
+                moonIcon.classList.remove('active');
+                localStorage.setItem('theme', 'light');
+                
+                // Add fade transition effect
+                body.style.opacity = '0.8';
+                setTimeout(() => {
+                    body.style.opacity = '1';
+                }, 150);
+            }
+            
+            // Highlight current navigation item
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (!this.getAttribute('href').startsWith('#')) return;
+                    e.preventDefault();
+                    navLinks.forEach(item => item.classList.remove('current'));
+                    this.classList.add('current');
+                });
+            });
+            
+            // Add animation to article cards on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Apply initial styles for animation
+            const articleCards = document.querySelectorAll('.article-card');
+            articleCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+            
+            // Featured article animation (removed but keeping code for future use)
+            const featuredArticle = document.querySelector('.featured-article');
+            if (featuredArticle) {
+                featuredArticle.style.opacity = '0';
+                featuredArticle.style.transform = 'translateY(30px)';
+                featuredArticle.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                
+                setTimeout(() => {
+                    featuredArticle.style.opacity = '1';
+                    featuredArticle.style.transform = 'translateY(0)';
+                }, 300);
+            }
+        });
+    </script>
+</body>
+</html>

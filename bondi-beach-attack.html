@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deadly attack on Bondi Beach's Jewish community shocks Australia | The Daily Brief</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.5s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        body {
+            font-family: 'EB Garamond', serif;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .theme-modal {
+            background-color: #fff;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .dark-mode .theme-modal {
+            background-color: #1e1e1e;
+        }
+        
+        .modal-overlay.active .theme-modal {
+            transform: translateY(0);
+        }
+        
+        .theme-modal h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #222;
+        }
+        
+        .dark-mode .theme-modal h2 {
+            color: #f0f0f0;
+        }
+        
+        .theme-modal p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+        }
+        
+        .dark-mode .theme-modal p {
+            color: #aaa;
+        }
+        
+        .theme-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .theme-option {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 25px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .dark-mode .theme-option {
+            background-color: #2a2a2a;
+        }
+        
+        .theme-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: #444;
+        }
+        
+        .theme-option.active {
+            border-color: #444;
+            background-color: #e8e8e8;
+        }
+        
+        .dark-mode .theme-option.active {
+            border-color: #666;
+            background-color: #333;
+        }
+        
+        .theme-preview {
+            height: 180px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .theme-preview.light {
+            background-color: #f8f8f8;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .theme-preview.dark {
+            background-color: #121212;
+            border: 1px solid #333;
+        }
+        
+        .preview-header {
+            height: 20%;
+            background-color: #fcfcfc;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+        
+        .dark-preview .preview-header {
+            background-color: #1e1e1e;
+            border-bottom: 1px solid #333;
+        }
+        
+        .preview-logo {
+            width: 30px;
+            height: 30px;
+            background-color: #333;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        .dark-preview .preview-logo {
+            background-color: #f0f0f0;
+        }
+        
+        .preview-title {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #222;
+        }
+        
+        .dark-preview .preview-title {
+            color: #f0f0f0;
+        }
+        
+        .preview-content {
+            height: 80%;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .preview-card {
+            background-color: #fefefe;
+            border-radius: 4px;
+            border: 1px solid #f0f0f0;
+            padding: 10px;
+        }
+        
+        .dark-preview .preview-card {
+            background-color: #222;
+            border: 1px solid #333;
+        }
+        
+        .preview-card-title {
+            height: 12px;
+            background-color: #444;
+            border-radius: 2px;
+            margin-bottom: 8px;
+        }
+        
+        .dark-preview .preview-card-title {
+            background-color: #555;
+        }
+        
+        .preview-card-text {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 2px;
+            margin-bottom: 5px;
+        }
+        
+        .dark-preview .preview-card-text {
+            background-color: #333;
+        }
+        
+        .theme-option h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #222;
+            text-align: center;
+        }
+        
+        .dark-mode .theme-option h3 {
+            color: #f0f0f0;
+        }
+        
+        .theme-option p {
+            color: #666;
+            text-align: center;
+            margin: 0;
+            font-size: 1rem;
+        }
+        
+        .dark-mode .theme-option p {
+            color: #aaa;
+        }
+        
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .theme-confirm-btn {
+            width: 200px;
+            padding: 15px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .theme-confirm-btn:hover {
+            background-color: #555;
+            transform: translateY(-2px);
+        }
+        
+        .dont-show-again {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+        }
+        
+        .dark-mode .dont-show-again {
+            color: #aaa;
+        }
+        
+        .dont-show-again input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        header {
+            background-color: #fcfcfc;
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+        
+        .dark-mode header {
+            background-color: #1e1e1e;
+            border-bottom: 1px solid #333;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-img {
+            height: 50px;
+            margin-right: 15px;
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #222;
+            letter-spacing: -1px;
+        }
+        
+        .dark-mode .logo-text {
+            color: #f0f0f0;
+        }
+        
+        .logo-text span {
+            color: #666;
+            font-weight: 400;
+        }
+        
+        .dark-mode .logo-text span {
+            color: #aaa;
+        }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .back-btn {
+            text-decoration: none;
+            color: #555;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+        
+        .dark-mode .back-btn {
+            color: #bbb;
+        }
+        
+        .back-btn:hover {
+            color: #222;
+        }
+        
+        .dark-mode .back-btn:hover {
+            color: #fff;
+        }
+        
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            background-color: #f0f0f0;
+            transition: all 0.3s;
+        }
+        
+        .dark-mode .theme-toggle {
+            background-color: #333;
+        }
+        
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .theme-icon {
+            font-size: 1.2rem;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .theme-icon.active {
+            color: #444;
+        }
+        
+        .dark-mode .theme-icon.active {
+            color: #ffd700;
+        }
+        
+        .theme-divider {
+            color: #bbb;
+            font-weight: 300;
+        }
+        
+        .article-header {
+            background-color: #fcfcfc;
+            padding: 60px 0 40px;
+            border-bottom: 1px solid #e5e5e5;
+            margin-bottom: 40px;
+        }
+        
+        .dark-mode .article-header {
+            background-color: #1a1a1a;
+            border-bottom: 1px solid #333;
+        }
+        
+        .article-category {
+            display: inline-block;
+            background-color: #f5f5f5;
+            color: #666;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .dark-mode .article-category {
+            background-color: #333;
+            color: #aaa;
+        }
+        
+        .article-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        
+        .dark-mode .article-title {
+            color: #f0f0f0;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .dark-mode .article-meta {
+            color: #888;
+            border-bottom: 1px solid #333;
+        }
+        
+        .article-hero-img {
+            width: 100%;
+            height: 400px;
+            background-color: #e8e8e8;
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        
+        .dark-mode .article-hero-img {
+            background-color: #333;
+        }
+        
+        .article-content {
+            background-color: #fefefe;
+            padding: 50px;
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+            margin-bottom: 50px;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .dark-mode .article-content {
+            background-color: #222;
+            border: 1px solid #333;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .article-content p {
+            margin-bottom: 25px;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+        
+        .dark-mode .article-content p {
+            color: #ddd;
+        }
+        
+        .article-content h2 {
+            font-size: 1.8rem;
+            margin: 40px 0 20px;
+            font-weight: 600;
+        }
+        
+        .dark-mode .article-content h2 {
+            color: #f0f0f0;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid #e0e0e0;
+            padding-left: 20px;
+            margin: 30px 0;
+            font-style: italic;
+            color: #666;
+            font-size: 1.3rem;
+            background-color: #fafafa;
+            padding: 20px;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .dark-mode .article-content blockquote {
+            border-left: 4px solid #555;
+            color: #ccc;
+            background-color: #2a2a2a;
+        }
+        
+        .source-card {
+            background-color: #fefefe;
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+            margin: 50px 0;
+            border: 1px solid #f0f0f0;
+            border-left: 4px solid #444;
+        }
+        
+        .dark-mode .source-card {
+            background-color: #222;
+            border: 1px solid #333;
+            border-left: 4px solid #666;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .source-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dark-mode .source-card h3 {
+            color: #f0f0f0;
+        }
+        
+        .source-card h3 i {
+            color: #666;
+        }
+        
+        .dark-mode .source-card h3 i {
+            color: #aaa;
+        }
+        
+        .source-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .dark-mode .source-card p {
+            color: #aaa;
+        }
+        
+        .source-link {
+            display: inline-block;
+            color: #444;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            padding: 8px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        
+        .dark-mode .source-link {
+            color: #ddd;
+            border: 1px solid #444;
+        }
+        
+        .source-link:hover {
+            background-color: #f5f5f5;
+            border-color: #444;
+        }
+        
+        .dark-mode .source-link:hover {
+            background-color: #333;
+            border-color: #666;
+        }
+        
+        .share-section {
+            background-color: #fefefe;
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+            margin-bottom: 50px;
+            text-align: center;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .dark-mode .share-section {
+            background-color: #222;
+            border: 1px solid #333;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .share-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .dark-mode .share-section h3 {
+            color: #f0f0f0;
+        }
+        
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+        }
+        
+        .dark-mode .share-btn {
+            background-color: #333;
+            color: #aaa;
+        }
+        
+        .share-btn:hover {
+            background-color: #444;
+            color: #fff;
+        }
+        
+        footer {
+            background-color: #f5f5f5;
+            border-top: 1px solid #e5e5e5;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .dark-mode footer {
+            background-color: #1a1a1a;
+            border-top: 1px solid #333;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 15px;
+        }
+        
+        .dark-mode .footer-logo {
+            color: #f0f0f0;
+        }
+        
+        .footer-about {
+            max-width: 400px;
+            color: #666;
+        }
+        
+        .dark-mode .footer-about {
+            color: #aaa;
+        }
+        
+        .copyright {
+            text-align: center;
+            color: #777;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+        }
+        
+        .dark-mode .copyright {
+            color: #888;
+            border-top: 1px solid #333;
+        }
+        
+        @media (max-width: 768px) {
+            .article-title {
+                font-size: 2.2rem;
+            }
+            
+            .article-hero-img {
+                height: 250px;
+            }
+            
+            .article-content {
+                padding: 30px 20px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .header-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .theme-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .theme-modal {
+                padding: 20px;
+            }
+            
+            .source-card {
+                padding: 20px;
+                margin: 30px 0;
+            }
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #444;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 3px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .dark-mode .btn {
+            background-color: #555;
+            color: #fff;
+        }
+        
+        .btn:hover {
+            background-color: #555;
+            transform: translateY(-1px);
+        }
+        
+        .dark-mode .btn:hover {
+            background-color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay" id="themeModal">
+        <div class="theme-modal">
+            <h2>Choose Your Theme</h2>
+            <p>Select a theme that matches your preference. You can always change it later.</p>
+            
+            <div class="theme-options">
+                <div class="theme-option active" id="lightThemeOption">
+                    <div class="theme-preview light">
+                        <div class="preview-header">
+                            <div class="preview-logo"></div>
+                            <div class="preview-title">The Daily Brief</div>
+                        </div>
+                        <div class="preview-content">
+                            <div class="preview-card">
+                                <div class="preview-card-title"></div>
+                                <div class="preview-card-text"></div>
+                                <div class="preview-card-text" style="width: 80%;"></div>
+                            </div>
+                            <div class="preview-card">
+                                <div class="preview-card-title"></div>
+                                <div class="preview-card-text"></div>
+                                <div class="preview-card-text" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Light Mode</h3>
+                    <p>Clean, bright interface perfect for daytime reading</p>
+                </div>
+                
+                <div class="theme-option" id="darkThemeOption">
+                    <div class="theme-preview dark">
+                        <div class="preview-header dark-preview">
+                            <div class="preview-logo"></div>
+                            <div class="preview-title">The Daily Brief</div>
+                        </div>
+                        <div class="preview-content">
+                            <div class="preview-card dark-preview">
+                                <div class="preview-card-title"></div>
+                                <div class="preview-card-text"></div>
+                                <div class="preview-card-text" style="width: 80%;"></div>
+                            </div>
+                            <div class="preview-card dark-preview">
+                                <div class="preview-card-title"></div>
+                                <div class="preview-card-text"></div>
+                                <div class="preview-card-text" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Dark Mode</h3>
+                    <p>Easier on the eyes, perfect for low-light environments</p>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="theme-confirm-btn" id="confirmThemeBtn">Continue with Selected Theme</button>
+                <div class="dont-show-again">
+                    <input type="checkbox" id="dontShowThemeAgain">
+                    <label for="dontShowThemeAgain">Do not show this again</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="logo.png" alt="The Daily Brief Logo" class="logo-img">
+                    <div class="logo-text">The Daily <span>Brief</span></div>
+                </div>
+                <div class="header-controls">
+                    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+                    <div class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-sun theme-icon" id="sunIcon"></i>
+                        <span class="theme-divider">|</span>
+                        <i class="fas fa-moon theme-icon" id="moonIcon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <article>
+            <div class="article-header">
+                <span class="article-category">Breaking News</span>
+                <h1 class="article-title">Deadly attack on Bondi Beach's Jewish community shocks Australia</h1>
+                <div class="article-meta">
+                    <span>By Martin Belam</span>
+                    <span>Dec 15, 2025 • 8 min read</span>
+                </div>
+                <div class="article-hero-img" style="background-image: url('https://www.aljazeera.com/wp-content/uploads/2025/12/afp_693ed14f2468-1765724495.jpg?resize=770%2C513&quality=80');"></div>
+            </div>
+            
+            <div class="article-content">
+                <p>As you receive this email it is Monday evening in Sydney, where the Jewish community, the city and the country are grappling with grief after the deadliest terrorist attack in Australia in modern times.</p>
+                
+                <p>On Sunday evening, at least 15 people, including one child, were killed after two men, said by police to be a father and son armed with guns, opened fire on a Hanukah celebration at Bondi beach in Sydney. Dozens more were injured in what police have declared a targeted antisemitic terrorist attack. The older of the two men was shot by police and is dead.</p>
+                
+                <h2>How the Attack Unfolded</h2>
+                
+                <p>Shortly before 6.47pm local time, police and emergency services were called to Archer Park, where a Hanukah festival organised by Chabad of Bondi was under way.</p>
+                
+                <blockquote>
+                    "An attack on Jewish Australians is an attack on every Australian," said Prime Minister Anthony Albanese.
+                </blockquote>
+                
+                <p>Witnesses described hearing dozens of gunshots as people ran for cover, grabbing children and vaulting barricades. Video shared online showed two gunmen firing from a nearby footbridge. Other footage captured a bystander tackling and disarming one of the alleged attackers – an act police and politicians later said saved lives.</p>
+                
+                <p>More than 40 ambulance resources, including helicopters and specialist paramedics, were dispatched to the scene. The beach, packed with locals and tourists after a 32C day, was locked down as police urged the public to shelter and avoid the area. By about 8.30pm, police said there were no further active shooters.</p>
+                
+                <p>At least 16 people were killed, including one alleged gunman. Among the dead was Rabbi Eli Schlanger, a London-born father-of-five who was assistant rabbi at Chabad of Bondi. Those killed ranged in age from 10 to 87. An Israeli citizen was also among those killed.</p>
+                
+                <h2>Police and Security Response</h2>
+                
+                <p>New South Wales police declared the shooting a terrorist incident late on Sunday night local time.</p>
+                
+                <p>Police said two gunmen were allegedly involved. They were later identified as father and son, Sajid Akram, 50, and Naveed Akram, 24. Sajid was killed at the scene, while Naveed was in a critical condition in hospital. Authorities initially investigated whether there was a third attacker but later ruled that scenario out.</p>
+                
+                <p>The NSW police commissioner, Mal Lanyon, said bomb disposal units were sent to examine a nearby vehicle believed to contain several improvised explosive devices (IED). Police confirmed another firearm and a third IED had been located at the Bondi crime scene on Monday.</p>
+                
+                <p>Forty-two people were taken to hospital, including two police officers whose injuries were described as "serious, verging on critical".</p>
+                
+                <p>Australia's domestic intelligence chief, Mike Burgess, said one of the alleged gunmen was known to authorities, but not assessed as an immediate threat.</p>
+                
+                <h2>Political Reaction</h2>
+                
+                <p>Australia's prime minister, Anthony Albanese, convened the national security committee on Sunday evening and described the shooting as "an act of evil antisemitism".</p>
+                
+                <p>"This was a targeted attack on Jewish Australians on the first day of Hanukah, which should be a day of joy," he said. "An attack on Jewish Australians is an attack on every Australian."</p>
+                
+                <p>The New South Wales premier, Chris Minns, said the attackers had fired on "a crowded group of families", and he praised the "extraordinary bravery" of members of the public who intervened.</p>
+                
+                <p>King Charles, who remains head of state in Australia, condemned what he called a "dreadful antisemitic terrorist attack."</p>
+                
+                <h2>A Moment of Courage</h2>
+                
+                <p>Footage from the scene showed a bystander rushing a gunman, wrestling a shotgun from his hands and preventing further shots being fired.</p>
+                
+                <p>Minns said the man's actions were "the most unbelievable scene I've ever seen" and credited him with saving lives.</p>
+                
+                <p>Australian media later identified the man as Ahmed, a fruit shop owner and father of two, who was himself injured during the attack and taken to hospital.</p>
+                
+                <h2>Gun Control Reform</h2>
+                
+                <p>Albanese quickly vowed to toughen gun control laws, saying proposed reforms would be discussed with state and territory leaders at a meeting on Monday. Reforms could include limiting the number of firearms someone can own and an audit of existing licences, he said.</p>
+                
+                <p>More details about Sajid and Naveed Akram emerged on Monday. The government said Naveed was an Australian-born citizen. His father, Sajid, had arrived in 1998 on a student visa, transferred in 2001 to a partner visa, and had been on three resident return visas after overseas trips.</p>
+                
+                <p>Albanese confirmed Naveed had come to the attention of the domestic intelligence agency, Asio, in October 2019 due to his being "associated with others", but the agency found "there was no indication of any ongoing threat or threat of him engaging in violence".</p>
+                
+                <p>The attack has prompted increased security measures in Jewish communities across Australia and internationally, with British police forces stepping up security after the antisemitic terror attack.</p>
+            </div>
+            
+            <div class="source-card">
+                <h3><i class="fas fa-newspaper"></i> Article Source</h3>
+                <p>This article is based on reporting from The Guardian. For the original reporting and additional details, visit the source article.</p>
+                <a href="https://www.theguardian.com/world/2025/dec/15/first-edition-bondi-beach-attack" class="source-link" target="_blank">View Original Article on The Guardian</a>
+            </div>
+            
+            <div class="share-section">
+                <h3>Share this article</h3>
+                <div class="share-buttons">
+                    <a href="#" class="share-btn" title="Share on Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="share-btn" title="Share on Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="share-btn" title="Share on LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="share-btn" title="Share via Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </article>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">The Daily Brief</div>
+                    <p>Delivering thoughtful, in-depth journalism that helps readers understand the complex world around us.</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 The Daily Brief. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+            const body = document.body;
+            
+            const themeModal = document.getElementById('themeModal');
+            const lightThemeOption = document.getElementById('lightThemeOption');
+            const darkThemeOption = document.getElementById('darkThemeOption');
+            const confirmThemeBtn = document.getElementById('confirmThemeBtn');
+            const dontShowThemeAgain = document.getElementById('dontShowThemeAgain');
+            
+            const dontShowTheme = localStorage.getItem('dontShowTheme');
+            const hasSelectedTheme = localStorage.getItem('hasSelectedTheme');
+            
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            const savedTheme = localStorage.getItem('theme');
+            
+            if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
+                enableDarkMode();
+                darkThemeOption.classList.add('active');
+                lightThemeOption.classList.remove('active');
+            } else {
+                enableLightMode();
+                lightThemeOption.classList.add('active');
+                darkThemeOption.classList.remove('active');
+            }
+            
+            if (!hasSelectedTheme && dontShowTheme !== 'true') {
+                setTimeout(() => {
+                    themeModal.classList.add('active');
+                }, 300);
+            }
+            
+            lightThemeOption.addEventListener('click', function() {
+                lightThemeOption.classList.add('active');
+                darkThemeOption.classList.remove('active');
+                enableLightMode();
+            });
+            
+            darkThemeOption.addEventListener('click', function() {
+                darkThemeOption.classList.add('active');
+                lightThemeOption.classList.remove('active');
+                enableDarkMode();
+            });
+            
+            confirmThemeBtn.addEventListener('click', function() {
+                localStorage.setItem('hasSelectedTheme', 'true');
+                
+                if (dontShowThemeAgain.checked) {
+                    localStorage.setItem('dontShowTheme', 'true');
+                }
+                
+                themeModal.classList.remove('active');
+            });
+            
+            themeToggle.addEventListener('click', function() {
+                if (body.classList.contains('dark-mode')) {
+                    enableLightMode();
+                    lightThemeOption.classList.add('active');
+                    darkThemeOption.classList.remove('active');
+                } else {
+                    enableDarkMode();
+                    darkThemeOption.classList.add('active');
+                    lightThemeOption.classList.remove('active');
+                }
+            });
+            
+            function enableDarkMode() {
+                body.classList.add('dark-mode');
+                sunIcon.classList.remove('active');
+                moonIcon.classList.add('active');
+                localStorage.setItem('theme', 'dark');
+                
+                body.style.opacity = '0.8';
+                setTimeout(() => {
+                    body.style.opacity = '1';
+                }, 150);
+            }
+            
+            function enableLightMode() {
+                body.classList.remove('dark-mode');
+                sunIcon.classList.add('active');
+                moonIcon.classList.remove('active');
+                localStorage.setItem('theme', 'light');
+                
+                body.style.opacity = '0.8';
+                setTimeout(() => {
+                    body.style.opacity = '1';
+                }, 150);
+            }
+            
+            const currentUrl = encodeURIComponent(window.location.href);
+            const articleTitle = encodeURIComponent(document.title);
+            
+            document.querySelectorAll('.share-btn').forEach(btn => {
+                const platform = btn.querySelector('i').className;
+                let shareUrl = '#';
+                
+                if (platform.includes('twitter')) {
+                    shareUrl = `https://twitter.com/intent/tweet?url=${currentUrl}&text=${articleTitle}`;
+                } else if (platform.includes('facebook')) {
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+                } else if (platform.includes('linkedin')) {
+                    shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${currentUrl}&title=${articleTitle}`;
+                } else if (platform.includes('envelope')) {
+                    shareUrl = `mailto:?subject=${articleTitle}&body=Read this article: ${currentUrl}`;
+                }
+                
+                btn.href = shareUrl;
+                btn.target = '_blank';
+            });
+        });
+    </script>
+</body>
+</html>
